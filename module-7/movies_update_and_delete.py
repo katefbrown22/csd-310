@@ -17,7 +17,7 @@ from mysql.connector import errorcode
 from dotenv import load_dotenv
 
 
-# Load .env from the SAME folder as this script (module-7), not from wherever you run python
+
 env_path = Path(__file__).resolve().parent / ".env"
 load_dotenv(dotenv_path=env_path)
 
@@ -67,13 +67,13 @@ def get_any_studio_id(cursor):
 
 
 def main():
-    # Pull from YOUR .env keys
+
     db_user = os.getenv("USER")
-    db_password = os.getenv("PASSWORD")  # empty password is allowed (will be "")
+    db_password = os.getenv("PASSWORD")  
     db_host = os.getenv("HOST", "localhost")
     db_name = os.getenv("DATABASE", "movies")
 
-    # Fail-fast if USER or HOST or DATABASE is missing
+
     if not db_user:
         print("ERROR: Missing USER in .env")
         print("Expected .env keys: USER, PASSWORD, HOST, DATABASE")
@@ -91,16 +91,16 @@ def main():
         db = mysql.connector.connect(**config)
         cursor = db.cursor()
 
-        # 1) DISPLAYING FILMS
+
         show_films(cursor, "DISPLAYING FILMS")
 
-        # 2) INSERT a new film (NOT Star Wars)
+
         studio_id = get_any_studio_id(cursor)
         if studio_id is None:
             print("ERROR: No studios found in studio table.")
             return
 
-        # Try common genre names; fallback to first genre
+
         genre_id = get_genre_id(cursor, "Sci-Fi")
         if genre_id is None:
             genre_id = get_genre_id(cursor, "Science Fiction")
@@ -111,7 +111,7 @@ def main():
             print("ERROR: No genres found in genre table.")
             return
 
-        # NOTE: If this INSERT fails, your film table columns are different.
+ 
         insert_sql = """
             INSERT INTO film
                 (film_name, film_releaseDate, film_runtime, film_director, studio_id, genre_id)
